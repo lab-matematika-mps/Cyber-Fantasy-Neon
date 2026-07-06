@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Tug of War: Battle of Numbers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div id="loadingScreen" class="screen active">
+        <div class="loader-content">
+            <h1 class="neon-text-blue">MATH TUG OF WAR</h1>
+            <p class="neon-text-pink">Battle of Numbers</p>
+            <div class="progress-bar-container">
+                <div id="loadingProgress" class="progress-bar"></div>
+            </div>
+            <p class="loading-status">Menginisialisasi Sistem Cyber...</p>
+        </div>
+    </div>
+
+    <div id="landingPage" class="screen">
+        <div class="menu-container glassmorphism">
+            <h1 class="logo-title neon-text-purple animate-pulse">MATH TUG OF WAR</h1>
+            <h2 class="logo-subtitle neon-text-cyan">BATTLE OF NUMBERS</h2>
+            
+            <div class="button-group">
+                <button id="btnStartAdventure" class="btn btn-neon-blue">MULAI PETUALANGAN</button>
+                <button id="btnHelp" class="btn btn-neon-purple">CARA BERMAIN</button>
+                <button id="btnToggleSound" class="btn btn-neon-pink">SOUND: ON</button>
+            </div>
+
+            <div class="credit-footer">
+                Dibuat oleh Ustad Fahilan &bull; MGKB SCHOOL &bull; © 2026
+            </div>
+        </div>
+    </div>
+
+    <div id="helpModal" class="modal hidden">
+        <div class="modal-content glassmorphism">
+            <h2 class="neon-text-cyan">Cara Bermain</h2>
+            <ul class="help-list">
+                <li>Jawab soal matematika secepat mungkin dengan mengetik angka lalu tekan <b>Enter</b>.</li>
+                <li>Setiap jawaban <b>BENAR</b> akan menarik tali ke arahmu!</li>
+                <li>Hati-hati, AI juga akan menjawab soal sesuai dengan tingkat kesulitannya.</li>
+                <li>Dapatkan <b>COMBO</b> dengan menjawab benar berturut-turut untuk tarikan yang lebih kuat!</li>
+            </ul>
+            <button id="btnCloseHelp" class="btn btn-neon-pink">TUTUP</button>
+        </div>
+    </div>
+
+    <div id="setupPage" class="screen">
+        <div class="setup-container glassmorphism">
+            <h2 class="neon-text-blue">REGISTRASI HERO</h2>
+            <input type="text" id="playerNameInput" placeholder="Masukkan Nama Kamu..." maxlength="15" autocomplete="off">
+            
+            <h3 class="neon-text-purple" style="margin-top: 20px;">PILIH RAS KAMU</h3>
+            <div class="race-grid">
+                <div class="race-card selected" data-race="manusia" data-color="#00f0ff">
+                    <div class="race-avatar">👨</div>
+                    <h4>Manusia</h4>
+                    <p>Fokus tinggi, adaptasi cepat di dunia cyber.</p>
+                </div>
+                <div class="race-card" data-race="alien" data-color="#ff007f">
+                    <div class="race-avatar">👽</div>
+                    <h4>Alien</h4>
+                    <p>Teknologi kosmik dengan kalkulasi super.</p>
+                </div>
+                <div class="race-card" data-race="elf" data-color="#39ff14">
+                    <div class="race-avatar">🧝</div>
+                    <h4>Elf</h4>
+                    <p>Kecepatan neon dan kelincahan magis.</p>
+                </div>
+                <div class="race-card" data-race="dwarf" data-color="#ffaa00">
+                    <div class="race-avatar">⚒️</div>
+                    <h4>Dwarf</h4>
+                    <p>Pertahanan kokoh dengan daya tarik besi.</p>
+                </div>
+                <div class="race-card" data-race="robot" data-color="#9d00ff">
+                    <div class="race-avatar">🤖</div>
+                    <h4>Robot Baik</h4>
+                    <p>Sistem AI ramah berkecepatan kuantum.</p>
+                </div>
+            </div>
+
+            <button id="btnNextToEnemy" class="btn btn-neon-cyan" style="margin-top: 25px;">LANJUT</button>
+        </div>
+    </div>
+
+    <div id="enemyPage" class="screen">
+        <div class="setup-container glassmorphism">
+            <h2 class="neon-text-pink">PILIH LAWAN & ARENA</h2>
+            <div class="enemy-list">
+                <div class="enemy-card" data-enemy="robot_jahat" data-diff="Mudah">
+                    <div class="enemy-avatar animate-bounce-slow">🤖</div>
+                    <div class="enemy-info">
+                        <h3>Robot Jahat (Mudah)</h3>
+                        <p>Materi: Penjumlahan & Pengurangan</p>
+                        <p>Akurasi: 65% | Kecepatan: 5-8s</p>
+                    </div>
+                </div>
+                <div class="enemy-card" data-enemy="godzilla" data-diff="Sedang">
+                    <div class="enemy-avatar animate-bounce-slow">🦖</div>
+                    <div class="enemy-info">
+                        <h3>Godzilla (Sedang)</h3>
+                        <p>Materi: Perkalian (2 Digit x 1 Digit)</p>
+                        <p>Akurasi: 80% | Kecepatan: 3-6s</p>
+                    </div>
+                </div>
+                <div class="enemy-card" data-enemy="raksasa" data-diff="Sulit">
+                    <div class="enemy-avatar animate-bounce-slow">👹</div>
+                    <div class="enemy-info">
+                        <h3>Raksasa (Sulit)</h3>
+                        <p>Materi: Pembagian Bulat</p>
+                        <p>Akurasi: 92% | Kecepatan: 2-4s</p>
+                    </div>
+                </div>
+            </div>
+            <button id="btnBackToSetup" class="btn btn-neon-purple" style="margin-top: 20px; margin-right: 10px;">KEMBALI</button>
+            <button id="btnStartBattle" class="btn btn-neon-blue" style="margin-top: 20px;">BATTLE!</button>
+        </div>
+    </div>
+
+    <div id="gamePage" class="screen">
+        <div class="hud-top glassmorphism">
+            <div class="hud-player">
+                <span id="hudPlayerName" class="neon-text-blue">Player</span> 
+                <span id="hudPlayerRace">👨</span>
+                <div class="score-counter">Benar: <span id="countRight" style="color:#39ff14">0</span></div>
+            </div>
+            <div class="hud-center">
+                <div id="gameTimer" class="neon-text-pink">00:00</div>
+                <div id="comboDisplay" class="combo-hide">COMBO x1</div>
+            </div>
+            <div class="hud-enemy">
+                <span id="hudEnemyName" class="neon-text-pink">Musuh</span>
+                <span id="hudEnemyAvatar">🤖</span>
+                <div class="score-counter">Salah: <span id="countWrong" style="color:#ff007f">0</span></div>
+            </div>
+        </div>
+
+        <div id="battleArena" class="arena-base">
+            <div class="rope-progress-track">
+                <div id="ropeProgressFill" class="rope-progress-fill"></div>
+                <div id="ropeMarker" class="rope-marker"></div>
+            </div>
+
+            <div class="tug-of-war-field">
+                <div id="playerCharacter" class="char idle-anim">👨</div>
+                <div id="ropeLine">
+                    <div id="ropeCenterKnot">⚡</div>
+                </div>
+                <div id="enemyCharacter" class="char idle-anim">🤖</div>
+            </div>
+        </div>
+
+        <div id="effectPopUp" class="effect-popup-layer"></div>
+
+        <div class="question-panel glassmorphism">
+            <div id="questionText">2.500 + 5.000</div>
+            <div class="input-wrapper">
+                <input type="number" id="answerInput" placeholder="Ketik jawaban..." autofocus pattern="\d*">
+                <p style="font-size: 11px; margin-top: 5px; color: #888;">Tekan ENTER untuk mengirim jawaban</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="countdownOverlay" class="screen-overlay hidden">
+        <h1 id="countdownText" class="animate-pulse">3</h1>
+    </div>
+
+    <div id="scoreBoardPage" class="screen">
+        <div class="result-container glassmorphism">
+            <h1 id="victoryDefeatTitle" class="neon-text-purple">VICTORY!</h1>
+            <div id="endCharacterShow" style="font-size: 70px; margin: 10px 0;">🎉</div>
+            
+            <div class="rank-badge" id="rankBadge">S</div>
+
+            <div class="stats-table">
+                <div class="stats-row"><span>Nama:</span><span id="resName">Pemain</span></div>
+                <div class="stats-row"><span>Akurasi:</span><span id="resAccuracy">0%</span></div>
+                <div class="stats-row"><span>Total Benar:</span><span id="resRight" style="color:#39ff14">0</span></div>
+                <div class="stats-row"><span>Total Salah:</span><span id="resWrong" style="color:#ff007f">0</span></div>
+                <div class="stats-row"><span>Waktu Bermain:</span><span id="resTime">0s</span></div>
+            </div>
+
+            <div class="high-score-section">
+                🏆 HIGH SCORE TERBAIK: <span id="highScoreVal" style="color:#00f0ff">0</span>
+            </div>
+
+            <div class="button-group-row">
+                <button id="btnPlayAgain" class="btn btn-neon-blue">Main Lagi</button>
+                <button id="btnChangeRace" class="btn btn-neon-purple">Ganti Ras</button>
+                <button id="btnChangeEnemy" class="btn btn-neon-pink">Menu Utama</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
